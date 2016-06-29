@@ -1,25 +1,30 @@
-// 头部JS
-function testJson() {
-    var obj=window.location;
-    var path = obj.protocol + '//' + obj.host;
+var obj = window.location;
+var path = obj.protocol + '//' + obj.host;
 
-    /* 通过Mock生成Dummy数据, 拦截ajax请求, 并模拟返回Json数据 */
-    Mock.mock(
-        path + '/user/get',
-        'get',
-        {
-            'name': '@name',
-            'age|1-100': 100,
-            'color': '@color'
-        }
-    );
+function testJsonGet() {
 
     var url = path + '/user/get';
     var param = '';
+
     var success = function (result) {
-        $('.dummy').append('<br/>' + result.name);
-        $('.dummy').append('<br/>' + result.age);
-        $('.dummy').append('<br/>' + result.color);
+        $('.dummy').append('<br/>姓名: ' + result.name);
+        $('.dummy').append('<br/>年龄: ' + result.age);
+        $('.dummy').append('<br/>颜色: <font color=\"' + result.color + '\">随机颜色</font>');
     };
+
     $.get(url, param, success, 'json');
+}
+
+function testJsonPost() {
+
+    var url = path + '/user/post';
+    var param = '';
+
+    var success = function (result) {
+        $('.dummy').append('<br/>语句: ' + result.sentence);
+        $('.dummy').append('<br/>段落: ' + result.paragraph);
+        $('.dummy').append('<br/>图片: <img src=\"' + result.image + '\" />');
+    };
+
+    $.post(url, param, success, 'json');
 }
